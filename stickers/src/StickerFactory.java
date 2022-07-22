@@ -25,9 +25,11 @@ public class StickerFactory {
 		graphics.setColor(Color.YELLOW);
 		graphics.setFont(font);
 
-		graphics.drawString("TOPZERA", 100, newHeight - 100);
+		graphics.drawString("Chique Show", 100, newHeight - 100);
 
-		ImageIO.write(newImage, "png", new File("output/" + fileName));
+		File outputFile = new File("./output/" + fileName);
+		outputFile.mkdirs();
+		ImageIO.write(newImage, "png", outputFile);
 
 	}
 
