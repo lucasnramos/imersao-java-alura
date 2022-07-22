@@ -19,23 +19,13 @@ public class App {
         applicationProperties.load(new FileInputStream(appConfigPath));
         String url = applicationProperties.getProperty("API_URL");
         String jsonContent = new ApiClient().fetch(url);
-        // extrair só os dados que interessam (titulo, poster, classificação)
-        var parser = new JsonParser();
-        List<Map<String, String>> movieList = parser.parse(jsonContent);
-
-        // exibir e manipular os dados
-        for (Map<String, String> movie : movieList) {
-            System.out.println(movie.get("title"));
-            System.out.println(movie.get("image"));
-            System.out.println(movie.get("imDbRating"));
-            System.out.println();
-        }
-
-        // Aula 2 - gerando imagem para sticker
+        ContentExtractor nasaExtractor = new NasaContentExtractor();
+        // ContentExtractor movieExtractor = new NasaContentExtractor();
+        List<Content> contentList = nasaExtractor.extract(jsonContent);
         var factory = new StickerFactory();
-        for (Map<String, String> filme : movieList) {
-            String imgUrl = filme.get("image");
-            String title = filme.get("title");
+        for (Content content : contentList) {
+            String imgUrl = content.getImageUrl();
+            String title = content.getTitle();
             InputStream inputStream = new URL(imgUrl).openStream();
             String fileName = title + ".png";
             factory.create(inputStream, fileName);
