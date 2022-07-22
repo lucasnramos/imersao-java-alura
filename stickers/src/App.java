@@ -18,15 +18,10 @@ public class App {
     public static void main(String[] args) throws Exception {
         applicationProperties.load(new FileInputStream(appConfigPath));
         String url = applicationProperties.getProperty("API_URL");
-        URI uriAddress = URI.create(url);
-        var client = HttpClient.newHttpClient();
-        var request = HttpRequest.newBuilder(uriAddress).GET().build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        String body = response.body();
-
+        String jsonContent = new ApiClient().fetch(url);
         // extrair só os dados que interessam (titulo, poster, classificação)
         var parser = new JsonParser();
-        List<Map<String, String>> movieList = parser.parse(body);
+        List<Map<String, String>> movieList = parser.parse(jsonContent);
 
         // exibir e manipular os dados
         for (Map<String, String> movie : movieList) {
