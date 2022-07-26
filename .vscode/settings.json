@@ -1,0 +1,5 @@
+{
+  "java.project.sourcePaths": ["stickers/src"],
+  "java.project.outputPath": "stickers/bin",
+  "java.project.referencedLibraries": ["stickers/lib/**/*.jar"]
+}
