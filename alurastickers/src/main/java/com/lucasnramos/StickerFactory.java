@@ -1,3 +1,5 @@
+package com.lucasnramos;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -21,13 +23,13 @@ public class StickerFactory {
 		Graphics2D graphics = (Graphics2D) newImage.getGraphics();
 		graphics.drawImage(image, 0, 0, null);
 
-		var font = new Font(Font.SANS_SERIF, Font.BOLD, 64);
+		Font font = new Font(Font.SANS_SERIF, Font.BOLD, 64);
 		graphics.setColor(Color.YELLOW);
 		graphics.setFont(font);
 
 		graphics.drawString("Chique Show", 100, newHeight - 100);
 
-		File outputFile = new File("./output/" + fileName);
+		File outputFile = new File("output/" + fileName);
 		outputFile.mkdirs();
 		ImageIO.write(newImage, "png", outputFile);
 

@@ -29,3 +29,9 @@ hs_err_pid*
 *.png
 *.jpg
 *.jpeg
+
+# IDE settings
+.vscode/
+
+# other
+.settings
