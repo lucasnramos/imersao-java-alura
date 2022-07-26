@@ -10,34 +10,41 @@ public class App {
     static private final String apiUrl = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
 
     public static void main(String[] args) throws Exception {
-        // read API_URL from properties file
         String url = apiUrl;
-        // Creates new URI object to build a new HTTP Client and request
         URI uriAddress = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder(uriAddress).GET().build();
-        // Sends a get request to the API and retrieves body
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         String body = response.body();
 
         var parser = new JsonParser();
         List<Map<String, String>> movieList = parser.parse(body);
 
-        // reading only first 3 for easy debug
-        for (int i = 0; i < 3; i++) {
-            var filme = movieList.get(i);
-            System.out.println("Titulo do Filme: " + filme.get("title"));
-            System.out.println("Link do Poster: " + filme.get("image"));
-            System.out.println("Score: " + filme.get("imDbRating"));
+        for (Map<String, String> filme : movieList) {
+            var rating = getRating(filme.get("imDbRating"));
+            System.out.println(AnsiColors.BLUE + "Titulo do Filme: " + filme.get("title"));
+            System.out.println(AnsiColors.PURPLE + "Link do Poster: " + filme.get("image"));
+            System.out.println(AnsiColors.RED + "Score: " + rating);
             System.out.println();
         }
+    }
 
-        // prints all movies
-        // for (Map<String, String> filme : movieList) {
-        // System.out.println("Titulo do Filme: " + filme.get("title"));
-        // System.out.println("Link do Poster: " + filme.get("image"));
-        // System.out.println("Score: " + filme.get("imDbRating"));
-        // System.out.println();
-        // }
+    private static String getRating(String rating) {
+        String halfStep = " 💔 ";
+        String fullStep = " ❤️ ";
+        String emojiRating = "";
+        Float numberRating = Float.parseFloat(rating);
+        Boolean ratingHasDecimal = numberRating % 2 != 0;
+        Integer intRating = numberRating.intValue();
+
+        for (int i = 0; i < intRating; i++) {
+            emojiRating = emojiRating + fullStep;
+        }
+
+        if (ratingHasDecimal) {
+            emojiRating = emojiRating + halfStep;
+        }
+
+        return emojiRating;
     }
 }
