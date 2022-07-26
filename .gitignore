@@ -24,3 +24,8 @@ hs_err_pid*
 
 # properties file, only an example should be committed
 *.properties
+
+# Don't  save image files
+*.png
+*.jpg
+*.jpeg
