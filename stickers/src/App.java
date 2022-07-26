@@ -1,16 +1,23 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class App {
-    static private final String apiUrl = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
+    private static Properties properties = new Properties();
 
     public static void main(String[] args) throws Exception {
-        String url = apiUrl;
+        properties.load(new FileInputStream("application.properties"));
+        String url = properties.getProperty("API_URL");
+
         URI uriAddress = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder(uriAddress).GET().build();
