@@ -28,10 +28,12 @@ public class App {
 
         // instantiate new sticker factory
         StickerFactory factory = new StickerFactory();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < movieList.size(); i++) {
             var movie = movieList.get(i);
+            var movieTitle = movie.get("title");
+            var movieRating = Float.parseFloat(movie.get("imDbRating"));
             InputStream inputStream = new URL(movie.get("image")).openStream();
-            factory.create(inputStream, movie.get("title"));
+            factory.create(inputStream, movieTitle, movieRating);
         }
     }
 

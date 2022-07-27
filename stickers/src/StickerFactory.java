@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class StickerFactory {
 
-	public void create(InputStream inputStream, String fileName) throws Exception {
+	public void create(InputStream inputStream, String fileName, Float rating) throws Exception {
 
 		BufferedImage image = ImageIO.read(inputStream);
 
@@ -27,7 +27,16 @@ public class StickerFactory {
 		var font = setFont();
 		graphics.setColor(Color.YELLOW);
 		graphics.setFont(font);
-		graphics.drawString("Chique Show", 5, newHeight - 25);
+		String message = "Para tudo e assiste!";
+
+		// set message, and color based on movie rating
+		if (rating < 5) {
+			message = "Corre Negada";
+		} else if (rating < 9) {
+			message = "Vale a Pipoca";
+		}
+
+		graphics.drawString(message, 5, newHeight - 25);
 
 		File outputFile = new File("./stickers/output/" + fileName + ".png");
 		outputFile.mkdirs();

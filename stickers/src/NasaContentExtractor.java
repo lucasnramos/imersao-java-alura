@@ -14,6 +14,7 @@ public class NasaContentExtractor implements ContentExtractor {
 			var content = new Content(title, imageUrl);
 			contentList.add(content);
 		}
+		System.out.println("Content List\n" + contentList);
 
 		return contentList;
 	}
