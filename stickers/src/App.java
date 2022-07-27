@@ -1,11 +1,6 @@
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -20,18 +15,27 @@ public class App {
         properties.load(new FileInputStream("application.properties"));
         String url = properties.getProperty("API_URL");
 
-        URI uriAddress = URI.create(url);
-        var client = HttpClient.newHttpClient();
-        var request = HttpRequest.newBuilder(uriAddress).GET().build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        String body = response.body();
-
         // Parse response string as json using Jackson
+        var body = ApiClient.fetch(url);
+
+        // get the list of movies and as a list and print the results
         ObjectMapper jsonMapper = new ObjectMapper();
         var readValue = jsonMapper.readValue(body, ImdbJsonResponse.class);
+        // printMovieList(movieList);
+
+        // Class 2 - generate images for Stickers
         var movieList = readValue.items;
 
-        // Iterate the movieList to print each movie's title, img and rating
+        // instantiate new sticker factory
+        StickerFactory factory = new StickerFactory();
+        for (int i = 0; i < 3; i++) {
+            var movie = movieList.get(i);
+            InputStream inputStream = new URL(movie.get("image")).openStream();
+            factory.create(inputStream, movie.get("title"));
+        }
+    }
+
+    private static void printMovieList(List<Map<String, String>> movieList) {
         for (Map<String, String> filme : movieList) {
             var rating = getRating(filme.get("imDbRating"));
             System.out.println(AnsiColors.BLUE + "Titulo do Filme: " +

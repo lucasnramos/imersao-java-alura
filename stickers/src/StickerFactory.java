@@ -15,19 +15,19 @@ public class StickerFactory {
 
 		int width = image.getWidth();
 		int height = image.getHeight();
-		int newHeight = height + 200;
+		int newHeight = height + 50;
 		BufferedImage newImage = new BufferedImage(width, newHeight, BufferedImage.TRANSLUCENT);
 
 		Graphics2D graphics = (Graphics2D) newImage.getGraphics();
 		graphics.drawImage(image, 0, 0, null);
 
-		var font = new Font(Font.SANS_SERIF, Font.BOLD, 64);
+		var font = new Font(Font.SERIF, Font.BOLD, 14);
 		graphics.setColor(Color.YELLOW);
 		graphics.setFont(font);
 
-		graphics.drawString("Chique Show", 100, newHeight - 100);
+		graphics.drawString("Chique Show", 5, newHeight - 25);
 
-		File outputFile = new File("./output/" + fileName);
+		File outputFile = new File("./stickers/output/" + fileName + ".png");
 		outputFile.mkdirs();
 		ImageIO.write(newImage, "png", outputFile);
 
