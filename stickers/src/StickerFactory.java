@@ -1,8 +1,11 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
@@ -21,16 +24,33 @@ public class StickerFactory {
 		Graphics2D graphics = (Graphics2D) newImage.getGraphics();
 		graphics.drawImage(image, 0, 0, null);
 
-		var font = new Font(Font.SERIF, Font.BOLD, 14);
+		var font = setFont();
 		graphics.setColor(Color.YELLOW);
 		graphics.setFont(font);
-
 		graphics.drawString("Chique Show", 5, newHeight - 25);
 
 		File outputFile = new File("./stickers/output/" + fileName + ".png");
 		outputFile.mkdirs();
 		ImageIO.write(newImage, "png", outputFile);
 
+	}
+
+	private static Font setFont() {
+		Font font = null;
+		String fontPath = "./stickers/fonts/ComicSansMS3.ttf";
+
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, new File(fontPath)).deriveFont(13f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontPath)));
+			return font;
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return new Font(Font.SANS_SERIF, Font.BOLD, 64);
 	}
 
 }
