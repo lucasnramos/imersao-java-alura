@@ -7,7 +7,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class ApiClient {
 
-	public String fetch(String url) {
+	public static String fetch(String url) {
 		try {
 			URI uriAddress = URI.create(url);
 			var client = HttpClient.newHttpClient();
