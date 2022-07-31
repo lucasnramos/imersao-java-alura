@@ -16,25 +16,30 @@ public class App {
         String url = properties.getProperty("API_URL");
 
         // Parse response string as json using Jackson
-        var body = ApiClient.fetch(url);
+        var json = ApiClient.fetch(url);
 
-        // get the list of movies and as a list and print the results
-        ObjectMapper jsonMapper = new ObjectMapper();
-        var readValue = jsonMapper.readValue(body, ImdbJsonResponse.class);
-        // printMovieList(movieList);
+        // Class 3 - some refactoring
+        ContentExtractor extractor = new ImdbContentExtractor();
 
-        // Class 2 - generate images for Stickers
-        var movieList = readValue.items;
+        System.out.println(extractor.extract(json));
 
-        // instantiate new sticker factory
-        StickerFactory factory = new StickerFactory();
-        for (int i = 0; i < movieList.size(); i++) {
-            var movie = movieList.get(i);
-            var movieTitle = movie.get("title");
-            var movieRating = Float.parseFloat(movie.get("imDbRating"));
-            InputStream inputStream = new URL(movie.get("image")).openStream();
-            factory.create(inputStream, movieTitle, movieRating);
-        }
+        // // get the list of movies and as a list and print the results
+        // ObjectMapper jsonMapper = new ObjectMapper();
+        // var readValue = jsonMapper.readValue(json, ImdbJsonResponse.class);
+        // // printMovieList(movieList);
+
+        // // Class 2 - generate images for Stickers
+        // var movieList = readValue.items;
+
+        // // instantiate new sticker factory
+        // StickerFactory factory = new StickerFactory();
+        // for (int i = 0; i < movieList.size(); i++) {
+        // var movie = movieList.get(i);
+        // var movieTitle = movie.get("title");
+        // var movieRating = Float.parseFloat(movie.get("imDbRating"));
+        // InputStream inputStream = new URL(movie.get("image")).openStream();
+        // factory.create(inputStream, movieTitle, movieRating);
+        // }
     }
 
     private static void printMovieList(List<Map<String, String>> movieList) {

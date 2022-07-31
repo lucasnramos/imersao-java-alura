@@ -7,7 +7,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class ApiClient {
 
-	public static String fetch(String url) {
+	public static String fetch(String url) throws ApiClientException {
 		try {
 			URI uriAddress = URI.create(url);
 			var client = HttpClient.newHttpClient();
@@ -15,7 +15,7 @@ public class ApiClient {
 			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 			return response.body();
 		} catch (IOException | InterruptedException e) {
-			throw new RuntimeException(e);
+			throw new ApiClientException("Erro de conexão com API");
 		}
 	}
 }

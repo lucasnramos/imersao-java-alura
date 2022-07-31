@@ -62,6 +62,9 @@ _Em breve_
 
 - [x] Transformar a classe que representa os conteúdos em um Record, disponível a partir do Java 16
 - [x] consumir outras APIs que contém imagens, como a da Marvel, que é bem diferente. Repositório com APIs públicas
+- [x] Criar as suas próprias exceções e usá-las na classe que implementa o cliente HTTP
+- [ ] Usar recursos do Java 8 e posterior, como Streams e Lambdas, para mapear uma lista em uma outra
+- [ ] Criar uma Enum que une, como configurações, a URL da API e o extrator utilizado
 
 ### ✅ Resultado do 3º dia
 
